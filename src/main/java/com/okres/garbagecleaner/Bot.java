@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class Bot extends TelegramLongPollingBot {
                 sendMsg(message, "How I can help you ?");
             } else if ("/settings".equals(text)) {
                 sendMsg(message, "What will we customize ?");
+            }else {
+                try {
+                    sendMsg(message, Weather.getWeather(message.getText(), new Model()));
+                } catch (IOException e) {
+                    sendMsg(message, "Cant find such city");
+                }
             }
         }
     }
